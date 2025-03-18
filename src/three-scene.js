@@ -15,6 +15,17 @@ class ThreeScene extends HTMLElement {
     this.waypoint1 = null;
     this.waypoint2 = null;
     this.onWindowResize = this.onWindowResize.bind(this);
+    
+    // Add drag and snap properties
+    this.raycaster = new THREE.Raycaster();
+    this.mouse = new THREE.Vector2();
+    this.isDragging = false;
+    this.dragPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
+    this.intersectionPoint = new THREE.Vector3();
+    this.snapThreshold = 0.5; // Distance threshold for snapping
+    this.onMouseDown = this.onMouseDown.bind(this);
+    this.onMouseMove = this.onMouseMove.bind(this);
+    this.onMouseUp = this.onMouseUp.bind(this);
   }
 
   connectedCallback() {
@@ -204,6 +215,11 @@ class ThreeScene extends HTMLElement {
     this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     this.renderer.setClearColor(0xf0f0f0);
+    
+    // Add mouse event listeners
+    canvas.addEventListener('mousedown', this.onMouseDown);
+    canvas.addEventListener('mousemove', this.onMouseMove);
+    canvas.addEventListener('mouseup', this.onMouseUp);
     
     // Add lights
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
@@ -451,7 +467,117 @@ class ThreeScene extends HTMLElement {
     this.renderer.setSize(window.innerWidth, window.innerHeight);
   }
 
+  onMouseDown(event) {
+    // Calculate mouse position in normalized device coordinates (-1 to +1)
+    const rect = this.renderer.domElement.getBoundingClientRect();
+    this.mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+    this.mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+    // Update the picking ray with the camera and mouse position
+    this.raycaster.setFromCamera(this.mouse, this.camera);
+
+    // Calculate objects intersecting the picking ray
+    const intersects = this.raycaster.intersectObject(this.toteBag, true);
+
+    if (intersects.length > 0) {
+      this.isDragging = true;
+      this.controls.enabled = false;
+      
+      // Create a plane perpendicular to the camera's view direction
+      const cameraDirection = new THREE.Vector3();
+      this.camera.getWorldDirection(cameraDirection);
+      this.dragPlane.setFromNormalAndCoplanarPoint(cameraDirection, this.toteBag.position);
+      
+      // Calculate intersection point with the drag plane
+      this.raycaster.ray.intersectPlane(this.dragPlane, this.intersectionPoint);
+      
+      // Store the offset between the intersection point and the tote bag's position
+      this.dragOffset = this.toteBag.position.clone().sub(this.intersectionPoint);
+    }
+  }
+
+  onMouseMove(event) {
+    if (!this.isDragging) return;
+
+    // Calculate mouse position in normalized device coordinates (-1 to +1)
+    const rect = this.renderer.domElement.getBoundingClientRect();
+    this.mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+    this.mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+    // Update the picking ray with the camera and mouse position
+    this.raycaster.setFromCamera(this.mouse, this.camera);
+
+    // Calculate intersection point with the drag plane
+    this.raycaster.ray.intersectPlane(this.dragPlane, this.intersectionPoint);
+
+    // Update tote bag position with offset, but only on x and y axes
+    const newPosition = this.intersectionPoint.clone().add(this.dragOffset);
+    newPosition.z = this.toteBag.position.z; // Keep the original z position
+    
+    // Check for snapping to waypoints
+    const waypoint1Distance = newPosition.distanceTo(this.waypoint1.position);
+    const waypoint2Distance = newPosition.distanceTo(this.waypoint2.position);
+
+    if (waypoint1Distance < this.snapThreshold) {
+      // When snapping, maintain the z position
+      const snappedPosition = this.waypoint1.position.clone();
+      snappedPosition.z = this.toteBag.position.z;
+      this.toteBag.position.copy(snappedPosition);
+    } else if (waypoint2Distance < this.snapThreshold) {
+      // When snapping, maintain the z position
+      const snappedPosition = this.waypoint2.position.clone();
+      snappedPosition.z = this.toteBag.position.z;
+      this.toteBag.position.copy(snappedPosition);
+    } else {
+      this.toteBag.position.copy(newPosition);
+    }
+
+    // Update the control panel values
+    this.updateToteBagControls();
+  }
+
+  onMouseUp() {
+    this.isDragging = false;
+    this.controls.enabled = true;
+  }
+
+  updateToteBagControls() {
+    if (!this.toteBag) return;
+
+    const panel = this.querySelector('.tote-bag-controls');
+    if (!panel) return;
+
+    // Update position inputs
+    panel.querySelector('.position-x').value = this.toteBag.position.x.toFixed(1);
+    panel.querySelector('.position-x-value').value = this.toteBag.position.x.toFixed(1);
+    panel.querySelector('.position-y').value = this.toteBag.position.y.toFixed(1);
+    panel.querySelector('.position-y-value').value = this.toteBag.position.y.toFixed(1);
+    panel.querySelector('.position-z').value = this.toteBag.position.z.toFixed(1);
+    panel.querySelector('.position-z-value').value = this.toteBag.position.z.toFixed(1);
+
+    // Update model values display
+    this.updateModelValues('toteBag', {
+      scale: this.toteBag.scale.x,
+      position: {
+        x: this.toteBag.position.x,
+        y: this.toteBag.position.y,
+        z: this.toteBag.position.z
+      },
+      rotation: {
+        x: THREE.MathUtils.radToDeg(this.toteBag.rotation.x),
+        y: THREE.MathUtils.radToDeg(this.toteBag.rotation.y),
+        z: THREE.MathUtils.radToDeg(this.toteBag.rotation.z)
+      }
+    });
+  }
+
   disconnectedCallback() {
+    // Remove mouse event listeners
+    const canvas = this.renderer.domElement;
+    canvas.removeEventListener('mousedown', this.onMouseDown);
+    canvas.removeEventListener('mousemove', this.onMouseMove);
+    canvas.removeEventListener('mouseup', this.onMouseUp);
+
     window.removeEventListener('resize', this.onWindowResize);
     this.controls.dispose();
     this.renderer.dispose();
