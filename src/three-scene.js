@@ -369,7 +369,7 @@ class ThreeScene extends HTMLElement {
 
     // Load mannequin
     gltfLoader.load(
-      '/assets/mannequin.gltf',
+      './assets/mannequin.gltf',
       (gltf) => {
         this.mannequin = gltf.scene;
         this.mannequin.scale.set(3.5, 3.5, 3.5);
@@ -389,7 +389,7 @@ class ThreeScene extends HTMLElement {
 
     // Load tote bag
     objLoader.load(
-      '/assets/tote-bag.obj',
+      './assets/tote-bag.obj',
       (object) => {
         this.toteBag = object;
         this.toteBag.scale.set(0.004, 0.004, 0.004);
