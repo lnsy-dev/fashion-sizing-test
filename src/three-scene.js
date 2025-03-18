@@ -111,6 +111,60 @@ class ThreeScene extends HTMLElement {
             </div>
           </div>
         </details>
+        <details>
+          <summary>Waypoint 1 Controls</summary>
+          <div class="control-panel waypoint1-controls">
+            <div class="control-group">
+              <label>Scale:</label>
+              <div class="slider-container">
+                <input type="range" class="scale" min="0.1" max="1" step="0.1" value="0.6">
+                <input type="number" class="scale-value" min="0.1" max="1" step="0.1" value="0.6">
+              </div>
+            </div>
+            <div class="control-group">
+              <label>Position:</label>
+              <div class="slider-container">
+                <input type="range" class="position-x" min="-5" max="5" step="0.1" value="-1.6">
+                <input type="number" class="position-x-value" min="-5" max="5" step="0.1" value="-1.6">
+              </div>
+              <div class="slider-container">
+                <input type="range" class="position-y" min="-5" max="5" step="0.1" value="1.3">
+                <input type="number" class="position-y-value" min="-5" max="5" step="0.1" value="1.3">
+              </div>
+              <div class="slider-container">
+                <input type="range" class="position-z" min="-5" max="5" step="0.1" value="0.2">
+                <input type="number" class="position-z-value" min="-5" max="5" step="0.1" value="0.2">
+              </div>
+            </div>
+          </div>
+        </details>
+        <details>
+          <summary>Waypoint 2 Controls</summary>
+          <div class="control-panel waypoint2-controls">
+            <div class="control-group">
+              <label>Scale:</label>
+              <div class="slider-container">
+                <input type="range" class="scale" min="0.1" max="1" step="0.1" value="0.6">
+                <input type="number" class="scale-value" min="0.1" max="1" step="0.1" value="0.6">
+              </div>
+            </div>
+            <div class="control-group">
+              <label>Position:</label>
+              <div class="slider-container">
+                <input type="range" class="position-x" min="-5" max="5" step="0.1" value="1.7">
+                <input type="number" class="position-x-value" min="-5" max="5" step="0.1" value="1.7">
+              </div>
+              <div class="slider-container">
+                <input type="range" class="position-y" min="-5" max="5" step="0.1" value="1.3">
+                <input type="number" class="position-y-value" min="-5" max="5" step="0.1" value="1.3">
+              </div>
+              <div class="slider-container">
+                <input type="range" class="position-z" min="-5" max="5" step="0.1" value="0.3">
+                <input type="number" class="position-z-value" min="-5" max="5" step="0.1" value="0.3">
+              </div>
+            </div>
+          </div>
+        </details>
       </div>
       <div class="model-values">
         <div class="model-values-container">
@@ -120,6 +174,14 @@ class ThreeScene extends HTMLElement {
         <div class="model-values-container">
           <h3>Tote Bag Values</h3>
           <span id="tote-bag-values"></span>
+        </div>
+        <div class="model-values-container">
+          <h3>Waypoint 1 Values</h3>
+          <span id="waypoint1-values"></span>
+        </div>
+        <div class="model-values-container">
+          <h3>Waypoint 2 Values</h3>
+          <span id="waypoint2-values"></span>
         </div>
       </div>
       <canvas class="three-canvas"></canvas>
@@ -174,51 +236,37 @@ class ThreeScene extends HTMLElement {
   }
 
   setupControls() {
-    // Mannequin controls
-    const mannequinPanel = this.querySelector('.mannequin-controls');
-    if (mannequinPanel) {
-      mannequinPanel.querySelectorAll('.slider-container').forEach(container => {
-        const slider = container.querySelector('input[type="range"]');
-        const numberInput = container.querySelector('input[type="number"]');
-        
-        // Update number input when slider changes
-        slider.addEventListener('input', (e) => {
-          e.preventDefault();
-          numberInput.value = slider.value;
-          this.updateModelTransform('mannequin');
-        });
-        
-        // Update slider when number input changes
-        numberInput.addEventListener('input', (e) => {
-          e.preventDefault();
-          slider.value = numberInput.value;
-          this.updateModelTransform('mannequin');
-        });
-      });
-    }
+    // Setup controls for all models and waypoints
+    const controlPanels = [
+      { name: 'mannequin', panel: '.mannequin-controls' },
+      { name: 'toteBag', panel: '.tote-bag-controls' },
+      { name: 'waypoint1', panel: '.waypoint1-controls' },
+      { name: 'waypoint2', panel: '.waypoint2-controls' }
+    ];
 
-    // Tote bag controls
-    const toteBagPanel = this.querySelector('.tote-bag-controls');
-    if (toteBagPanel) {
-      toteBagPanel.querySelectorAll('.slider-container').forEach(container => {
-        const slider = container.querySelector('input[type="range"]');
-        const numberInput = container.querySelector('input[type="number"]');
-        
-        // Update number input when slider changes
-        slider.addEventListener('input', (e) => {
-          e.preventDefault();
-          numberInput.value = slider.value;
-          this.updateModelTransform('toteBag');
+    controlPanels.forEach(({ name, panel }) => {
+      const controlPanel = this.querySelector(panel);
+      if (controlPanel) {
+        controlPanel.querySelectorAll('.slider-container').forEach(container => {
+          const slider = container.querySelector('input[type="range"]');
+          const numberInput = container.querySelector('input[type="number"]');
+          
+          // Update number input when slider changes
+          slider.addEventListener('input', (e) => {
+            e.preventDefault();
+            numberInput.value = slider.value;
+            this.updateModelTransform(name);
+          });
+          
+          // Update slider when number input changes
+          numberInput.addEventListener('input', (e) => {
+            e.preventDefault();
+            slider.value = numberInput.value;
+            this.updateModelTransform(name);
+          });
         });
-        
-        // Update slider when number input changes
-        numberInput.addEventListener('input', (e) => {
-          e.preventDefault();
-          slider.value = numberInput.value;
-          this.updateModelTransform('toteBag');
-        });
-      });
-    }
+      }
+    });
   }
 
   updateModelTransform(modelName) {
@@ -229,7 +277,11 @@ class ThreeScene extends HTMLElement {
     }
 
     // Convert camelCase to kebab-case for class names
-    const panelClass = modelName === 'toteBag' ? 'tote-bag-controls' : 'mannequin-controls';
+    const panelClass = modelName === 'toteBag' ? 'tote-bag-controls' : 
+                      modelName === 'waypoint1' ? 'waypoint1-controls' :
+                      modelName === 'waypoint2' ? 'waypoint2-controls' :
+                      'mannequin-controls';
+    
     const panel = this.querySelector(`.${panelClass}`);
     if (!panel) {
       console.warn(`Control panel for ${modelName} not found`);
@@ -238,11 +290,6 @@ class ThreeScene extends HTMLElement {
 
     const values = {
       scale: parseFloat(panel.querySelector('.scale').value),
-      rotation: {
-        x: parseFloat(panel.querySelector('.rotation-x').value),
-        y: parseFloat(panel.querySelector('.rotation-y').value),
-        z: parseFloat(panel.querySelector('.rotation-z').value)
-      },
       position: {
         x: parseFloat(panel.querySelector('.position-x').value),
         y: parseFloat(panel.querySelector('.position-y').value),
@@ -250,16 +297,29 @@ class ThreeScene extends HTMLElement {
       }
     };
 
+    // Only include rotation for mannequin and tote bag
+    if (modelName === 'mannequin' || modelName === 'toteBag') {
+      values.rotation = {
+        x: parseFloat(panel.querySelector('.rotation-x').value),
+        y: parseFloat(panel.querySelector('.rotation-y').value),
+        z: parseFloat(panel.querySelector('.rotation-z').value)
+      };
+    }
+
     console.log(`Updating ${modelName} with values:`, values);
 
     // Apply transforms
     model.scale.set(values.scale, values.scale, values.scale);
-    model.rotation.set(
-      THREE.MathUtils.degToRad(values.rotation.x),
-      THREE.MathUtils.degToRad(values.rotation.y),
-      THREE.MathUtils.degToRad(values.rotation.z)
-    );
     model.position.set(values.position.x, values.position.y, values.position.z);
+    
+    // Apply rotation only for mannequin and tote bag
+    if (values.rotation) {
+      model.rotation.set(
+        THREE.MathUtils.degToRad(values.rotation.x),
+        THREE.MathUtils.degToRad(values.rotation.y),
+        THREE.MathUtils.degToRad(values.rotation.z)
+      );
+    }
 
     // Update text output
     this.updateModelValues(modelName, values);
@@ -267,7 +327,11 @@ class ThreeScene extends HTMLElement {
 
   updateModelValues(modelName, values) {
     // Convert camelCase to kebab-case for the element ID
-    const elementId = modelName === 'toteBag' ? 'tote-bag-values' : `${modelName}-values`;
+    const elementId = modelName === 'toteBag' ? 'tote-bag-values' : 
+                     modelName === 'waypoint1' ? 'waypoint1-values' :
+                     modelName === 'waypoint2' ? 'waypoint2-values' :
+                     `${modelName}-values`;
+    
     const output = this.querySelector(`#${elementId}`);
     if (output) {
       output.textContent = JSON.stringify(values);
@@ -356,12 +420,12 @@ class ThreeScene extends HTMLElement {
 
     // Create waypoint 1
     this.waypoint1 = new THREE.Mesh(geometry, material);
-    this.waypoint1.position.set(-2, 0, 2);
+    this.waypoint1.position.set(-1.6, 1.3, 0.2);
     this.scene.add(this.waypoint1);
 
     // Create waypoint 2
     this.waypoint2 = new THREE.Mesh(geometry, material);
-    this.waypoint2.position.set(2, 0, -2);
+    this.waypoint2.position.set(1.7, 1.3, 0.3);
     this.scene.add(this.waypoint2);
   }
 
