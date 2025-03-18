@@ -135,16 +135,16 @@ class ThreeScene extends HTMLElement {
             <div class="control-group">
               <label>Position:</label>
               <div class="slider-container">
-                <input type="range" class="position-x" min="-5" max="5" step="0.1" value="-1.6">
-                <input type="number" class="position-x-value" min="-5" max="5" step="0.1" value="-1.6">
+                <input type="range" class="position-x" min="-5" max="5" step="0.1" value="-1.2">
+                <input type="number" class="position-x-value" min="-5" max="5" step="0.1" value="-1.2">
               </div>
               <div class="slider-container">
-                <input type="range" class="position-y" min="-5" max="5" step="0.1" value="1.3">
-                <input type="number" class="position-y-value" min="-5" max="5" step="0.1" value="1.3">
+                <input type="range" class="position-y" min="-5" max="5" step="0.1" value="0.8">
+                <input type="number" class="position-y-value" min="-5" max="5" step="0.1" value="0.8">
               </div>
               <div class="slider-container">
-                <input type="range" class="position-z" min="-5" max="5" step="0.1" value="0.2">
-                <input type="number" class="position-z-value" min="-5" max="5" step="0.1" value="0.2">
+                <input type="range" class="position-z" min="-5" max="5" step="0.1" value="0.7">
+                <input type="number" class="position-z-value" min="-5" max="5" step="0.1" value="0.7">
               </div>
             </div>
           </div>
@@ -162,16 +162,16 @@ class ThreeScene extends HTMLElement {
             <div class="control-group">
               <label>Position:</label>
               <div class="slider-container">
-                <input type="range" class="position-x" min="-5" max="5" step="0.1" value="1.7">
-                <input type="number" class="position-x-value" min="-5" max="5" step="0.1" value="1.7">
+                <input type="range" class="position-x" min="-5" max="5" step="0.1" value="1.8">
+                <input type="number" class="position-x-value" min="-5" max="5" step="0.1" value="1.8">
               </div>
               <div class="slider-container">
-                <input type="range" class="position-y" min="-5" max="5" step="0.1" value="1.3">
-                <input type="number" class="position-y-value" min="-5" max="5" step="0.1" value="1.3">
+                <input type="range" class="position-y" min="-5" max="5" step="0.1" value="0.7">
+                <input type="number" class="position-y-value" min="-5" max="5" step="0.1" value="0.7">
               </div>
               <div class="slider-container">
-                <input type="range" class="position-z" min="-5" max="5" step="0.1" value="0.3">
-                <input type="number" class="position-z-value" min="-5" max="5" step="0.1" value="0.3">
+                <input type="range" class="position-z" min="-5" max="5" step="0.1" value="0.1">
+                <input type="number" class="position-z-value" min="-5" max="5" step="0.1" value="0.1">
               </div>
             </div>
           </div>
@@ -249,6 +249,75 @@ class ThreeScene extends HTMLElement {
     
     // Start render loop
     this.render();
+
+    // Initialize control values
+    this.initializeControlValues();
+  }
+
+  initializeControlValues() {
+    // Initialize mannequin controls
+    const mannequinPanel = this.querySelector('.mannequin-controls');
+    if (mannequinPanel) {
+      mannequinPanel.querySelector('.scale').value = '3.5';
+      mannequinPanel.querySelector('.scale-value').value = '3.5';
+      mannequinPanel.querySelector('.rotation-x').value = '0';
+      mannequinPanel.querySelector('.rotation-x-value').value = '0';
+      mannequinPanel.querySelector('.rotation-y').value = '0';
+      mannequinPanel.querySelector('.rotation-y-value').value = '0';
+      mannequinPanel.querySelector('.rotation-z').value = '0';
+      mannequinPanel.querySelector('.rotation-z-value').value = '0';
+      mannequinPanel.querySelector('.position-x').value = '-0.1';
+      mannequinPanel.querySelector('.position-x-value').value = '-0.1';
+      mannequinPanel.querySelector('.position-y').value = '-3';
+      mannequinPanel.querySelector('.position-y-value').value = '-3';
+      mannequinPanel.querySelector('.position-z').value = '0';
+      mannequinPanel.querySelector('.position-z-value').value = '0';
+    }
+
+    // Initialize tote bag controls
+    const toteBagPanel = this.querySelector('.tote-bag-controls');
+    if (toteBagPanel) {
+      toteBagPanel.querySelector('.scale').value = '0.004';
+      toteBagPanel.querySelector('.scale-value').value = '0.004';
+      toteBagPanel.querySelector('.rotation-x').value = '-105';
+      toteBagPanel.querySelector('.rotation-x-value').value = '-105';
+      toteBagPanel.querySelector('.rotation-y').value = '0';
+      toteBagPanel.querySelector('.rotation-y-value').value = '0';
+      toteBagPanel.querySelector('.rotation-z').value = '97';
+      toteBagPanel.querySelector('.rotation-z-value').value = '97';
+      toteBagPanel.querySelector('.position-x').value = '2.4';
+      toteBagPanel.querySelector('.position-x-value').value = '2.4';
+      toteBagPanel.querySelector('.position-y').value = '0.7';
+      toteBagPanel.querySelector('.position-y-value').value = '0.7';
+      toteBagPanel.querySelector('.position-z').value = '0.5';
+      toteBagPanel.querySelector('.position-z-value').value = '0.5';
+    }
+
+    // Initialize waypoint 1 controls
+    const waypoint1Panel = this.querySelector('.waypoint1-controls');
+    if (waypoint1Panel) {
+      waypoint1Panel.querySelector('.scale').value = '0.6';
+      waypoint1Panel.querySelector('.scale-value').value = '0.6';
+      waypoint1Panel.querySelector('.position-x').value = '-1.2';
+      waypoint1Panel.querySelector('.position-x-value').value = '-1.2';
+      waypoint1Panel.querySelector('.position-y').value = '0.8';
+      waypoint1Panel.querySelector('.position-y-value').value = '0.8';
+      waypoint1Panel.querySelector('.position-z').value = '0.7';
+      waypoint1Panel.querySelector('.position-z-value').value = '0.7';
+    }
+
+    // Initialize waypoint 2 controls
+    const waypoint2Panel = this.querySelector('.waypoint2-controls');
+    if (waypoint2Panel) {
+      waypoint2Panel.querySelector('.scale').value = '0.6';
+      waypoint2Panel.querySelector('.scale-value').value = '0.6';
+      waypoint2Panel.querySelector('.position-x').value = '1.8';
+      waypoint2Panel.querySelector('.position-x-value').value = '1.8';
+      waypoint2Panel.querySelector('.position-y').value = '0.7';
+      waypoint2Panel.querySelector('.position-y-value').value = '0.7';
+      waypoint2Panel.querySelector('.position-z').value = '0.1';
+      waypoint2Panel.querySelector('.position-z-value').value = '0.1';
+    }
   }
 
   setupControls() {
@@ -436,12 +505,14 @@ class ThreeScene extends HTMLElement {
 
     // Create waypoint 1
     this.waypoint1 = new THREE.Mesh(geometry, material);
-    this.waypoint1.position.set(-1.6, 1.3, 0.2);
+    this.waypoint1.position.set(-1.2, 0.8, 0.7);
+    this.waypoint1.scale.set(0.6, 0.6, 0.6);
     this.scene.add(this.waypoint1);
 
     // Create waypoint 2
     this.waypoint2 = new THREE.Mesh(geometry, material);
-    this.waypoint2.position.set(1.7, 1.3, 0.3);
+    this.waypoint2.position.set(1.8, 0.7, 0.1);
+    this.waypoint2.scale.set(0.6, 0.6, 0.6);
     this.scene.add(this.waypoint2);
   }
 
@@ -537,6 +608,23 @@ class ThreeScene extends HTMLElement {
   }
 
   onMouseUp() {
+    if (this.isDragging) {
+      // Calculate distances to waypoints
+      const waypoint1Distance = this.toteBag.position.distanceTo(this.waypoint1.position);
+      const waypoint2Distance = this.toteBag.position.distanceTo(this.waypoint2.position);
+
+      // Find the closest waypoint
+      const closestWaypoint = waypoint1Distance < waypoint2Distance ? this.waypoint1 : this.waypoint2;
+
+      // Snap to the closest waypoint while maintaining z position
+      const snappedPosition = closestWaypoint.position.clone();
+      snappedPosition.z = this.toteBag.position.z;
+      this.toteBag.position.copy(snappedPosition);
+
+      // Update the control panel values
+      this.updateToteBagControls();
+    }
+
     this.isDragging = false;
     this.controls.enabled = true;
   }
