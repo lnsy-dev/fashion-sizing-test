@@ -1,11 +1,32 @@
-@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;500;600&display=swap');
 
 :root {
-  --bg-color: white;
-  --fg-color: black;
-  --highlight-color: orange;
-  --confirmation-color: green;
-  --warning-color: orange;
-  --error-color: red;
-  --body-font: "Atkinson Hyperlegible", sans-serif;
+  --bg-color: #ffffff;
+  --fg-color: #1a1a1a;
+  --highlight-color: #8b7355;
+  --confirmation-color: #2c3e50;
+  --warning-color: #c0392b;
+  --error-color: #e74c3c;
+  --body-font: "Montserrat", sans-serif;
+  --heading-font: "Playfair Display", serif;
+  
+  /* Three.js Scene */
+  --three-canvas-width: 100vw;
+  --three-canvas-height: 100vh;
+  --controls-panel-width: 300px;
+  --controls-panel-bg: rgba(255, 255, 255, 0.95);
+  --loading-overlay-bg: rgba(26, 26, 26, 0.9);
+  
+  /* Slider Styles */
+  --slider-height: 2px;
+  --slider-thumb-size: 16px;
+  --slider-thumb-bg: #ffffff;
+  --slider-thumb-border: #8b7355;
+  --slider-track-bg: #e0e0e0;
+  --slider-fill-bg: #8b7355;
+  
+  /* Panel Styles */
+  --panel-border: 1px solid rgba(139, 115, 85, 0.1);
+  --panel-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  --panel-padding: 24px;
 }

@@ -1,3 +1,9 @@
+You are a HTML, CSS and JS expert. You are a vanilla JS expert. You are a Three.js Expert. You are awesome.
+
+Please utilize DRY (do not repeate yourself) principals when writing code. Please see if there is an appropriate function already existing in the code that meets your directive. 
+
+When you write new code make sure not to break other code. 
+
 We are developing a vanilla HTML, CSS, JS project that utilizes Vercel middleware to serve itself. 
 
 This project is deployed to Vercel. It utilizes Vercel Edge Functions to serve the middleware. More information can be found here: https://vercel.com/docs/edge-middleware

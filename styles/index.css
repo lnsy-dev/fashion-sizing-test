@@ -7,6 +7,14 @@ body {
   background-color: var(--bg-color);
   color: var(--fg-color);
   font-family: var(--body-font);
+  font-weight: 300;
+  letter-spacing: 0.3px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--heading-font);
+  font-weight: 400;
+  letter-spacing: 0.5px;
 }
 
 error {
@@ -19,4 +27,306 @@ confirmation {
 
 warning {
   color: var(--warning-color);
+}
+
+/* Three.js Scene Styles */
+.three-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.controls-panel {
+  position: fixed;
+  top: 40px;
+  left: 40px;
+  width: var(--controls-panel-width);
+  background: var(--controls-panel-bg);
+  padding: var(--panel-padding);
+  border-radius: 0;
+  border: var(--panel-border);
+  box-shadow: var(--panel-shadow);
+  z-index: 2;
+  backdrop-filter: blur(10px);
+}
+
+.controls-panel h3 {
+  margin-bottom: 24px;
+  font-size: 1.2rem;
+  color: var(--highlight-color);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.control-group {
+  margin-bottom: 24px;
+}
+
+.control-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--fg-color);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.control-group input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: var(--slider-height);
+  background: var(--slider-track-bg);
+  border-radius: 2px;
+  outline: none;
+  margin: 12px 0;
+  position: relative;
+  cursor: pointer;
+}
+
+.control-group input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: var(--slider-thumb-size);
+  height: var(--slider-thumb-size);
+  background: var(--slider-thumb-bg);
+  border: 2px solid var(--slider-thumb-border);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: calc((var(--slider-height) - var(--slider-thumb-size)) / 2);
+}
+
+.control-group input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+}
+
+.control-group input[type="range"]::-moz-range-thumb {
+  width: var(--slider-thumb-size);
+  height: var(--slider-thumb-size);
+  background: var(--slider-thumb-bg);
+  border: 2px solid var(--slider-thumb-border);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.control-group input[type="range"]::-moz-range-thumb:hover {
+  transform: scale(1.1);
+}
+
+.control-group input[type="range"]::-ms-thumb {
+  width: var(--slider-thumb-size);
+  height: var(--slider-thumb-size);
+  background: var(--slider-thumb-bg);
+  border: 2px solid var(--slider-thumb-border);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 0;
+}
+
+.control-group input[type="range"]::-ms-thumb:hover {
+  transform: scale(1.1);
+}
+
+.control-group input[type="range"]::-webkit-slider-runnable-track {
+  background: var(--slider-fill-bg);
+  height: var(--slider-height);
+  border-radius: 2px;
+}
+
+.control-group input[type="range"]::-moz-range-track {
+  background: var(--slider-fill-bg);
+  height: var(--slider-height);
+  border-radius: 2px;
+}
+
+.control-group input[type="range"]::-ms-track {
+  background: var(--slider-fill-bg);
+  height: var(--slider-height);
+  border-radius: 2px;
+}
+
+.control-group input[type="color"] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 40px;
+  padding: 0;
+  border: var(--panel-border);
+  border-radius: 0;
+  cursor: pointer;
+  background: none;
+}
+
+.control-group input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.control-group input[type="color"]::-webkit-color-swatch {
+  border: none;
+  border-radius: 0;
+}
+
+.control-group span {
+  display: block;
+  margin-top: 4px;
+  font-size: 0.8rem;
+  color: var(--fg-color);
+  opacity: 0.7;
+}
+
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.9);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+.loading-progress {
+  width: 200px;
+  text-align: center;
+}
+
+.progress-bar {
+  width: 0%;
+  height: 4px;
+  background-color: #3498db;
+  transition: width 0.3s ease-in-out;
+  margin-bottom: 10px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.control-panels {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+}
+
+.control-panel {
+  background: transparent;
+  padding: 10px;
+  border-radius: 4px;
+  width: 200px;
+  margin-bottom: 10px;
+}
+
+.control-panel h3 {
+  margin: 0 0 10px 0;
+  font-size: 0.8rem;
+  color: var(--fg-color);
+}
+
+.control-group {
+  margin-bottom: 8px;
+}
+
+.control-group label {
+  display: block;
+  margin-bottom: 3px;
+  font-size: 0.7rem;
+  font-weight: 500;
+}
+
+.slider-container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 3px;
+}
+
+.slider-container input[type="range"] {
+  flex: 1;
+  width: 80px;
+}
+
+.slider-container input[type="number"] {
+  width: 40px;
+  padding: 1px 3px;
+  border: 1px solid rgba(139, 115, 85, 0.2);
+  border-radius: 2px;
+  font-size: 0.7rem;
+}
+
+.model-values {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 10px;
+  border-top: 1px solid rgba(139, 115, 85, 0.1);
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+}
+
+.model-values h3 {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--fg-color);
+  margin-right: 10px;
+  display: inline-block;
+}
+
+.model-values span {
+  font-family: monospace;
+  font-size: 0.7rem;
+  color: var(--fg-color);
+  opacity: 0.8;
+}
+
+.model-values-container {
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+}
+
+details {
+  background: transparent;
+  color: var(--fg-color);
+  font-size: 0.8rem;
+  margin-bottom: 10px;
+}
+
+details summary {
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+details summary:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+details[open] summary {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
