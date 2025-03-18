@@ -500,7 +500,7 @@ class ThreeScene extends HTMLElement {
       color: 0x808080,
       shininess: 100,
       transparent: true,
-      opacity: 0.8
+      opacity: 0 // Set opacity to 0 to make waypoints invisible
     });
 
     // Create waypoint 1
